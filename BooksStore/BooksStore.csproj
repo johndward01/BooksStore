@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Shared\BookCard.razor" />
     <_ContentIncludedByDefault Remove="wwwroot\appsettings.json" />
   </ItemGroup>
 
@@ -22,6 +23,10 @@
     <Content Update="wwwroot\appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Shared\BookCard.razor" />
   </ItemGroup>
 
 </Project>
