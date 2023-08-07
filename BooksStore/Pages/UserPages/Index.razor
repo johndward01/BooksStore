@@ -34,8 +34,25 @@ Welcome to your new app.
     <SurveyPrompt Title="How is Blazor working for you?" />
 }
 
+<ModalPopup Title="Hi!" IsOpen="@_isWelcomeModalOpen" OnCloseClicked="() => _isWelcomeModalOpen = false">
+    <ChildContent>
+        <p>
+            Welcome to our Books Store, here you will
+            find a huge collection of books to help you
+            build you career in software development,
+            enjoy it!
+        </p>
+    </ChildContent>
+    <FooterContent>
+        <button class="btn btn-primary" @onclick="() => _isWelcomeModalOpen = false">
+            Discover It
+        </button>
+    </FooterContent>
+</ModalPopup>
+
 @code
 {
+    private bool _isWelcomeModalOpen = true;
     private List<Book> _books = new List<Book>();
     private List<Book> _booksCart = new List<Book>();
     private Book _firstBook = new Book
