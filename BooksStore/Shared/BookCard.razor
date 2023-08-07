@@ -1,7 +1,6 @@
-﻿
-<div style="@BackgroundStyle" 
-    @attributes="UserAttributes" 
-    class="card">
+﻿@inject NavigationManager Navigation
+
+<div style="@BackgroundStyle" @attributes="UserAttributes" class="card" @onclick="NavigateToBookDetails">
     <h6>@Book?.Title</h6>
     <p>Author: @Book?.AuthorName</p>
     <p>Publishing date: @Book?.PublishingDate</p>
@@ -30,5 +29,11 @@
     private void AddToCart()
     {
         OnAddToCartClicked.InvokeAsync(Book);
+    }
+
+    private void NavigateToBookDetails()
+    {
+        var url = $"/book/{Book.Id}";
+        Navigation.NavigateTo(url);
     }
 }
