@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Shared\DataListView.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="Shared\BookCard.razor" />
     <_ContentIncludedByDefault Remove="wwwroot\appsettings.json" />
   </ItemGroup>
@@ -27,6 +31,14 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Shared\BookCard.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Shared\DataListView.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BooksStore.Blazor.Components\BooksStore.Blazor.Components.csproj" />
   </ItemGroup>
 
 </Project>
