@@ -19,6 +19,17 @@
         {"Title", "Welcome to Blazor"}
     };
 
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "currentCount")]
+    public int? CounterInitialValue { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (CounterInitialValue != null)
+        {
+            currentCount = CounterInitialValue.Value;
+        }
+    }
     private void IncrementCount()
     {
         currentCount++;
