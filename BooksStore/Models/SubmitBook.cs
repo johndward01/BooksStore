@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BooksStore.Models;
 
@@ -11,7 +12,8 @@ public class SubmitBook
     [StringLength(5000)]
     public string? Description { get; set; }
 
-    [Range(0, 9999)]
+    [DisplayName ("Number of Pages")]
+    [Range(0, 9999, ErrorMessage = "Number of pages must be at least 0 and at most 9999")]
     public int PagesCount { get; set; }
 
     [Required]

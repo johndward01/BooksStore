@@ -6,27 +6,31 @@
     <div class="col-6">
         <h2>Add a new book</h2>
         <EditForm Model="_book" OnSubmit="HandleBookFormSubmission">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+            <DataAnnotationsValidator />            
             <div class="form-group mt-1">
                 <label>Title</label>
                 <InputText @bind-Value="@_book.Title" class="form-control" />
+                <ValidationMessage For="() => _book.Title"/>
             </div>
             <div class="form-group mt-1">
                 <label>Author</label>
                 <InputText @bind-Value="@_book.Author" class="form-control" placeholder="Author" />
+                <ValidationMessage For="() => _book.Author" />
             </div>
             <div class="form-group mt-1">
                 <label>Description</label>
                 <InputTextArea @bind-Value="@_book.Description" class="form-control" />
+                <ValidationMessage For="() => _book.Description" />
             </div>
             <div class="form-group mt-1">
                 <label>Number of pages</label>
                 <InputNumber TValue="int" @bind-Value="@_book.PagesCount" class="form-control" />
+                <ValidationMessage For="() => _book.PagesCount" />
             </div>
             <div class="form-group mt-1">
                 <label>Price</label>
                 <InputNumber TValue="decimal" @bind-Value="@_book.Price" class="form-control" />
+                <ValidationMessage For="() => _book.Price" />
             </div>
             <br />
             <h4>Format</h4>
