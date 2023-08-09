@@ -1,0 +1,86 @@
+﻿@page "/book/form"
+
+<PageTitle>BooksStore | Add a new book</PageTitle>
+
+<div class="row">
+    <div class="col-6">
+        <h2>Add a new book</h2>
+        <EditForm Model="_book" OnSubmit="HandleBookFormSubmission">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group mt-1">
+                <label>Title</label>
+                <InputText @bind-Value="@_book.Title" class="form-control" />
+            </div>
+            <div class="form-group mt-1">
+                <label>Author</label>
+                <InputText @bind-Value="@_book.Author" class="form-control" placeholder="Author" />
+            </div>
+            <div class="form-group mt-1">
+                <label>Description</label>
+                <InputTextArea @bind-Value="@_book.Description" class="form-control" />
+            </div>
+            <div class="form-group mt-1">
+                <label>Number of pages</label>
+                <InputNumber TValue="int" @bind-Value="@_book.PagesCount" class="form-control" />
+            </div>
+            <div class="form-group mt-1">
+                <label>Price</label>
+                <InputNumber TValue="decimal" @bind-Value="@_book.Price" class="form-control" />
+            </div>
+            <br />
+            <h4>Format</h4>
+            <InputRadioGroup TValue="BookFormat" @bind-Value="_bookFormat">
+                <div class="row">
+                    <div class="col-4">
+                        <label>Paperback</label>
+                        <InputRadio TValue="BookFormat" Value="BookFormat.Paperback" />
+                    </div>
+                    <div class="col-4">
+                        <label>E-Book</label>
+                        <InputRadio TValue="BookFormat" Value="BookFormat.Ebook" />
+                    </div>
+                    <div class="col-4">
+                        <label>Both</label>
+                        <InputRadio TValue="BookFormat" Value="BookFormat.Both" />
+                    </div>
+                </div>
+            </InputRadioGroup>
+            <br />
+            <div class="form-group">
+                <h4>Category</h4>
+                <InputSelect TValue="string" @bind-Value="_book.Category" class="form-control">
+                    <option value="">Select category...</option>
+                    <option value="web" selected>Web</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="desktop">Desktop</option>
+                    <option value="cloud">Cloud</option>
+                </InputSelect>
+            </div>
+            <br />
+            <div class="form-group mt-1">
+                <input type="submit" class="btn btn-success" value="Save" />
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code
+{
+    enum BookFormat
+    {
+        Paperback,
+        Ebook,
+        Both
+    }
+    private BookFormat _bookFormat = BookFormat.Both;
+    private SubmitBook _book = new();
+
+    private void HandleBookFormSubmission()
+    {
+        Console.WriteLine("The book has been submitted successfully");
+        Console.WriteLine($"Title {_book.Title}");
+        Console.WriteLine($"Title {_book.Author}");
+        Console.WriteLine($"Title {_book.Price}");
+    }
+}

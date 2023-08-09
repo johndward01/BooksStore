@@ -3,13 +3,14 @@
 @inject IConfiguration Configuration
 @inject IWebAssemblyHostEnvironment Host
 @inject IBooksService BooksService
+@inject NavigationManager Navigation
+@implements IDisposable
 
 <PageTitle>Index</PageTitle>
 
 <h1>Welcome to our Books Store!</h1>
 
 <h3>Available Books:</h3>
-
 <DataListView TItemType="Book" Items="_books" ColumnsCount="4">
     <ItemTemplate>
         <BookCard Book="@context" OnAddToCartClicked="AddToCart" />
@@ -53,11 +54,22 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Navigation.LocationChanged += Navigation_LocationChanged;
         _books = await BooksService.GetAllBooksAsync();
     }
 
     private void AddToCart(Book selectedBook)
     {
         _booksCart.Add(selectedBook);
+    }
+
+    private void Navigation_LocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        Console.WriteLine($"The location changed to {e.Location}");
+    }
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= Navigation_LocationChanged;
     }
 }
