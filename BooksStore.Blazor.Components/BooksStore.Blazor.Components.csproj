@@ -19,4 +19,12 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="InputTime.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="InputTime.razor" />
+  </ItemGroup>
+
 </Project>
