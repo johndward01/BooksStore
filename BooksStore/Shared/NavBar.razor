@@ -1,4 +1,6 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+﻿@inject IJSRuntime JSRuntime
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="">BooksStore</a>
         <button class="navbar-toggler" type="button"
@@ -25,6 +27,19 @@
                 </li>
             </ul>
         </div>
+        <div class="d-flex">
+            <button class="btn btn-outline-primary" @onclick="ShowAlert">
+                Login
+            </button>
+        </div>
     </div>
 </nav>
 
+@code
+{
+    private void ShowAlert()
+    {
+        var jsInProcess = (IJSInProcessRuntime)JSRuntime;
+        jsInProcess.InvokeVoid("showAlert", "Unknown user");
+    }
+}

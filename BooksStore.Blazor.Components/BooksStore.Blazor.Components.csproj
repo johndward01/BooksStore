@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <UpToDateCheckInput Remove="InputTime.razor" />
   </ItemGroup>
 

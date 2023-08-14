@@ -4,6 +4,7 @@
 @inject IWebAssemblyHostEnvironment Host
 @inject IBooksService BooksService
 @inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 @implements IDisposable
 
 <PageTitle>Index</PageTitle>
@@ -11,7 +12,7 @@
 <h1>Welcome to our Books Store!</h1>
 
 <h3>Available Books:</h3>
-<DataListView TItemType="Book" Items="_books" ColumnsCount="4">
+<DataListView ItemType="Book" Items="_books" ColumnsCount="4">
     <ItemTemplate>
         <BookCard Book="@context" OnAddToCartClicked="AddToCart" />
     </ItemTemplate>
@@ -54,6 +55,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./scripts.js");
+        var randomBook = await module.InvokeAsync<Book>("getRandomBook");
         Navigation.LocationChanged += Navigation_LocationChanged;
         _books = await BooksService.GetAllBooksAsync();
     }

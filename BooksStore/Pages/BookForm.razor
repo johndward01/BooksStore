@@ -1,4 +1,5 @@
 ﻿@page "/book/form"
+@using BooksStore.Blazor.Components;
 
 <PageTitle>BooksStore | Add a new book</PageTitle>
 
@@ -19,7 +20,8 @@
             </div>
             <div class="form-group mt-1">
                 <label>Description</label>
-                <InputTextArea @bind-Value="@_book.Description" class="form-control" />
+                @* <InputTextArea @bind-Value="@_book.Description" class="form-control" /> *@
+                <BlazorSimpleMde @ref="_simpleMde"/>
                 <ValidationMessage For="() => _book.Description" />
             </div>
             <div class="form-group mt-1">
@@ -38,7 +40,7 @@
 				<p>Selected time is @_time</p>
 			</div>
 
-            <br />
+           @*  <br />
             <h4>Format</h4>
             <InputRadioGroup TValue="BookFormat" @bind-Value="_bookFormat">
                 <div class="row">
@@ -67,7 +69,7 @@
                     <option value="cloud">Cloud</option>
                 </InputSelect>
             </div>
-            <br />
+            <br /> *@
             <div class="form-group mt-1">
                 <input type="submit" class="btn btn-success" value="Save" />
             </div>
@@ -86,12 +88,15 @@
     private BookFormat _bookFormat = BookFormat.Both;
     private SubmitBook _book = new();
     private TimeOnly _time = new TimeOnly(12, 30, 0);
+    private BlazorSimpleMde _simpleMde;
 
-    private void HandleBookFormSubmission()
+    private async void HandleBookFormSubmission()
     {
-        Console.WriteLine("The book has been submitted successfully");
+        _book.Description = await _simpleMde.GetEditorValueAsync();
+        Console.WriteLine("Book has been submittedsuccessfully");
         Console.WriteLine($"Title {_book.Title}");
-        Console.WriteLine($"Title {_book.Author}");
-        Console.WriteLine($"Title {_book.Price}");
+        Console.WriteLine($"Author {_book.Author}");
+        Console.WriteLine($"Price ${_book.Price}");
+        Console.WriteLine($"Description{_book.Description}");
     }
 }

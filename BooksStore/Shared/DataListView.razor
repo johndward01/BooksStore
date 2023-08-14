@@ -1,4 +1,6 @@
-﻿@typeparam TItemType
+﻿@typeparam ItemType
+@inject IJSRuntime JSRuntime
+@* @implements IDisposable *@
 
 <div class="grid-container">
     @if (Items != null && Items.Any())
@@ -6,7 +8,7 @@
         foreach (var item in Items)
         {
             <div class="grid-item" style="width: @_columnWidth%"
-                 @onclick="() => OnItemClicked.InvokeAsync(item)">
+            @onclick="() => OnItemClicked.InvokeAsync(item)">
                 @ItemTemplate(item)
             </div>
         }
@@ -22,16 +24,31 @@
 @code
 {
     private int _columnWidth => 100 / ColumnsCount;
+    private DotNetObjectReference<DataListView<ItemType>>? _dotNetObjectReference;
 
     [Parameter]
-    public List<TItemType>? Items { get; set; }
+    public List<ItemType>? Items { get; set; }
 
     [Parameter]
-    public RenderFragment<TItemType> ItemTemplate { get; set; }
+    public RenderFragment<ItemType> ItemTemplate { get; set; }
 
     [Parameter]
-    public EventCallback<TItemType> OnItemClicked {get; set; }
+    public EventCallback<ItemType> OnItemClicked { get; set; }
 
     [Parameter]
     public int ColumnsCount { get; set; } = 4;
+
+    // protected async override Task OnInitializedAsync()
+    // {
+    //     _dotNetObjectReference = DotNetObjectReference.Create(this);
+    //     await JSRuntime.InvokeVoidAsync("triggerOnWindowResized", _dotNetObjectReference);
+    // }
+
+    // [JSInvokable]
+    // public void OnWindowResized(int width, int height)
+    // {
+    //     Console.WriteLine($"New width {width} and the new height {height}");
+    // }
+
+    // public void Dispose() => _dotNetObjectReference.Dispose();
 }
