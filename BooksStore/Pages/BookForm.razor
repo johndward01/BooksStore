@@ -1,5 +1,8 @@
 ﻿@page "/book/form"
 @using BooksStore.Blazor.Components;
+@using Blazored.LocalStorage;
+@inject ILocalStorageService LocalStorage
+@implements IDisposable
 
 <PageTitle>BooksStore | Add a new book</PageTitle>
 
@@ -21,7 +24,7 @@
             <div class="form-group mt-1">
                 <label>Description</label>
                 @* <InputTextArea @bind-Value="@_book.Description" class="form-control" /> *@
-                <BlazorSimpleMde @ref="_simpleMde"/>
+                <BlazorSimpleMde @ref="_simpleMde" />
                 <ValidationMessage For="() => _book.Description" />
             </div>
             <div class="form-group mt-1">
@@ -35,39 +38,39 @@
                 <ValidationMessage For="() => _book.Price" />
             </div>
             <div class="form-group mt-1">
-				<label>Time</label>
+                <label>Time</label>
                 <BooksStore.Blazor.Components.InputTime @bind-Value="@_time" class="form-control" />
-				<p>Selected time is @_time</p>
-			</div>
+                <p>Selected time is @_time</p>
+            </div>
 
-           @*  <br />
+            @*  <br />
             <h4>Format</h4>
             <InputRadioGroup TValue="BookFormat" @bind-Value="_bookFormat">
-                <div class="row">
-                    <div class="col-4">
-                        <label>Paperback</label>
-                        <InputRadio TValue="BookFormat" Value="BookFormat.Paperback" />
-                    </div>
-                    <div class="col-4">
-                        <label>E-Book</label>
-                        <InputRadio TValue="BookFormat" Value="BookFormat.Ebook" />
-                    </div>
-                    <div class="col-4">
-                        <label>Both</label>
-                        <InputRadio TValue="BookFormat" Value="BookFormat.Both" />
-                    </div>
-                </div>
+            <div class="row">
+            <div class="col-4">
+            <label>Paperback</label>
+            <InputRadio TValue="BookFormat" Value="BookFormat.Paperback" />
+            </div>
+            <div class="col-4">
+            <label>E-Book</label>
+            <InputRadio TValue="BookFormat" Value="BookFormat.Ebook" />
+            </div>
+            <div class="col-4">
+            <label>Both</label>
+            <InputRadio TValue="BookFormat" Value="BookFormat.Both" />
+            </div>
+            </div>
             </InputRadioGroup>
             <br />
             <div class="form-group">
-                <h4>Category</h4>
-                <InputSelect TValue="string" @bind-Value="_book.Category" class="form-control">
-                    <option value="">Select category...</option>
-                    <option value="web" selected>Web</option>
-                    <option value="mobile">Mobile</option>
-                    <option value="desktop">Desktop</option>
-                    <option value="cloud">Cloud</option>
-                </InputSelect>
+            <h4>Category</h4>
+            <InputSelect TValue="string" @bind-Value="_book.Category" class="form-control">
+            <option value="">Select category...</option>
+            <option value="web" selected>Web</option>
+            <option value="mobile">Mobile</option>
+            <option value="desktop">Desktop</option>
+            <option value="cloud">Cloud</option>
+            </InputSelect>
             </div>
             <br /> *@
             <div class="form-group mt-1">
@@ -89,6 +92,24 @@
     private SubmitBook _book = new();
     private TimeOnly _time = new TimeOnly(12, 30, 0);
     private BlazorSimpleMde _simpleMde;
+    private System.Timers.Timer _timer = new();
+    private void SetupTimer()
+    {
+        var second = 1000;
+        _timer.Interval = 10 * second;
+        _timer.Elapsed += async (sender, e) =>
+        {
+            await SaveFormStateAsync();
+        };
+        _timer.Start();
+    }
+
+    public void Dispose()
+    {
+        _timer.Stop();
+        _timer.Dispose();
+    }
+
 
     private async void HandleBookFormSubmission()
     {
@@ -98,5 +119,34 @@
         Console.WriteLine($"Author {_book.Author}");
         Console.WriteLine($"Price ${_book.Price}");
         Console.WriteLine($"Description{_book.Description}");
+        await ClearSavedStateAsync();
     }
+
+    private async Task SaveFormStateAsync()
+    {
+        _book.Description = await _simpleMde.GetEditorValueAsync();
+
+        await LocalStorage.SetItemAsync("book", _book);
+    }
+
+    private async Task CheckSavedStateAsync()
+    {
+        if (await LocalStorage.ContainKeyAsync("book"))
+        {
+            _book = await LocalStorage.GetItemAsync<SubmitBook>("book");
+        }
+    }
+
+    private async Task ClearSavedStateAsync()
+    {
+        await LocalStorage.RemoveItemAsync("book");
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        SetupTimer();
+        await CheckSavedStateAsync();
+    }
+
+
 }

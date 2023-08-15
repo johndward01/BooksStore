@@ -5,11 +5,24 @@
 
 @code 
 {
+    [Parameter]
+    public string? Content { get; set; }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             await JSRuntime.InvokeVoidAsync("initializeMarkdownEditor");
+
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("setMarkdownEditorValue", Content);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
     }
 
