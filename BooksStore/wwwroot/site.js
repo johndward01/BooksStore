@@ -2,15 +2,12 @@ function showAlert(name) {
     alert('Hello ' + name);
 }
 
-async function callStaticCsharpMethod() {
+
+function callStaticCsharpMethod() {
     // DotNet is a built-in object in Blazor
-    await DotNet.invokeMethodAsync('BooksStore', 'Sum', 3, 5)
+    DotNet.invokeMethodAsync('BooksStore', 'Sum', 3, 5)
         .then(data => {
             console.log('3 + 5 = ' + data);
-        })
-        .catch(e => {
-            console.log(e);
-            alert('something went wrong here');
         });
 }
 

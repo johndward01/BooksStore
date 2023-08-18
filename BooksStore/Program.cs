@@ -1,6 +1,7 @@
 using Blazored.LocalStorage;
 using BooksStore;
 using BooksStore.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -20,5 +21,7 @@ builder.Services.AddScoped<IBooksService, BooksHttpClientService>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<AppStateContainer>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 
 await builder.Build().RunAsync();

@@ -1,9 +1,11 @@
 ﻿@page "/authentication/login"
+@layout UserLayout
 @using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Components.Authorization;
 @inject IAuthenticationService AuthService
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager Navigation
-@layout UserLayout
+@inject AuthenticationStateProvider AuthStateProvider
 
 <PageTitle>Login to BooksStore</PageTitle>
 
@@ -36,9 +38,9 @@
         try
         {
             var loginResult = await AuthService.LoginUserAsync(_model);
-            
+
             await LocalStorage.SetItemAsync("access_token", loginResult.AccessToken);
-            
+            await AuthStateProvider.GetAuthenticationStateAsync();
             Navigation.NavigateTo("/");
         }
         catch (Exception ex)
