@@ -34,6 +34,12 @@ public class LocalBooksService : IBooksService
             PagesCount = 250,
         }
     };
+
+    public Task AddBookAsync(SubmitBook book)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<List<Book>> GetAllBooksAsync()
     {
         return Task.FromResult(_allBooks);

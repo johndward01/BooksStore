@@ -2,6 +2,8 @@
 @using BooksStore.Blazor.Components;
 @using Blazored.LocalStorage;
 @inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManager
+@inject IBooksService BooksService
 @implements IDisposable
 
 <PageTitle>BooksStore | Add a new book</PageTitle>
@@ -85,12 +87,9 @@
     private async void HandleBookFormSubmission()
     {
         _book.Description = await _simpleMde.GetEditorValueAsync();
-        Console.WriteLine("Book has been submittedsuccessfully");
-        Console.WriteLine($"Title {_book.Title}");
-        Console.WriteLine($"Author {_book.Author}");
-        Console.WriteLine($"Price ${_book.Price}");
-        Console.WriteLine($"Description{_book.Description}");
+        await BooksService.AddBookAsync(_book);
         await ClearSavedStateAsync();
+        NavigationManager.NavigateTo("/");
     }
 
     private async Task SaveFormStateAsync()
