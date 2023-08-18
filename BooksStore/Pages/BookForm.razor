@@ -42,43 +42,14 @@
                 <BooksStore.Blazor.Components.InputTime @bind-Value="@_time" class="form-control" />
                 <p>Selected time is @_time</p>
             </div>
-
-            @*  <br />
-            <h4>Format</h4>
-            <InputRadioGroup TValue="BookFormat" @bind-Value="_bookFormat">
-            <div class="row">
-            <div class="col-4">
-            <label>Paperback</label>
-            <InputRadio TValue="BookFormat" Value="BookFormat.Paperback" />
-            </div>
-            <div class="col-4">
-            <label>E-Book</label>
-            <InputRadio TValue="BookFormat" Value="BookFormat.Ebook" />
-            </div>
-            <div class="col-4">
-            <label>Both</label>
-            <InputRadio TValue="BookFormat" Value="BookFormat.Both" />
-            </div>
-            </div>
-            </InputRadioGroup>
-            <br />
-            <div class="form-group">
-            <h4>Category</h4>
-            <InputSelect TValue="string" @bind-Value="_book.Category" class="form-control">
-            <option value="">Select category...</option>
-            <option value="web" selected>Web</option>
-            <option value="mobile">Mobile</option>
-            <option value="desktop">Desktop</option>
-            <option value="cloud">Cloud</option>
-            </InputSelect>
-            </div>
-            <br /> *@
-            <div class="form-group mt-1">
+            <div class="form-group mb-3">
                 <input type="submit" class="btn btn-success" value="Save" />
             </div>
+            
         </EditForm>
     </div>
 </div>
+
 
 @code
 {
@@ -93,6 +64,7 @@
     private TimeOnly _time = new TimeOnly(12, 30, 0);
     private BlazorSimpleMde _simpleMde;
     private System.Timers.Timer _timer = new();
+
     private void SetupTimer()
     {
         var second = 1000;
@@ -109,7 +81,6 @@
         _timer.Stop();
         _timer.Dispose();
     }
-
 
     private async void HandleBookFormSubmission()
     {

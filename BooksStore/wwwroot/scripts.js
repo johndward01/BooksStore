@@ -7,3 +7,7 @@ export function getRandomBook() {
         price: 49.99
     }
 }
+
+export function showAlert(name) {
+    alert('Hello ' + name);
+}

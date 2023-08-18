@@ -1,5 +1,4 @@
-let simplemde;
-
+var simplemde;
 function initializeMarkdownEditor() {
     simplemde = new SimpleMDE();
 }
