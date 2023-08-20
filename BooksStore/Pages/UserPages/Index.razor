@@ -75,6 +75,12 @@
         Navigation.LocationChanged += Navigation_LocationChanged;
         _books = await BooksService.GetAllBooksAsync();
         // _books = await GetBooksAsync();
+
+        var authState = await AuthenticationState;
+        if (authState.User.Identity.IsAuthenticated)
+        {
+            // Execute logic if the user is authenticated
+        }
     }
 
     private void AddToCart(Book selectedBook)
