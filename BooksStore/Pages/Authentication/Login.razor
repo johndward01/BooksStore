@@ -41,6 +41,9 @@
     private string _errorMessage = string.Empty;
     private LoginRequest _model = new();
 
+    [CascadingParameter]
+    public ErrorHandler ErrorHandler { get; set; }
+
     private async Task SubmitLoginFormAsync()
     {
         _errorMessage = string.Empty;
@@ -58,7 +61,7 @@
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            await ErrorHandler.HandleExceptionAsync(ex);
         }
     }
 }
