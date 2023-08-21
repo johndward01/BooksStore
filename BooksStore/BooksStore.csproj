@@ -7,42 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Shared\DataListView.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Shared\BookCard.razor" />
-    <_ContentIncludedByDefault Remove="wwwroot\appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.10" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="wwwroot\appsettings.Development.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Shared\BookCard.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Shared\DataListView.razor.css" />
+	  <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.4" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" PrivateAssets="all" />
+	  <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BooksStore.Blazor.Components\BooksStore.Blazor.Components.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<BlazorWebAssemblyLazyLoad Include="BooksStore.Blazor.Components.dll" />
+	</ItemGroup>
 
 </Project>

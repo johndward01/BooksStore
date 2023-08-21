@@ -27,7 +27,6 @@
             </div>
             <div class="form-group mt-1">
                 <label>Description</label>
-                @* <InputTextArea @bind-Value="@_book.Description" class="form-control" /> *@
                 <BlazorSimpleMde @ref="_simpleMde" />
                 <ValidationMessage For="() => _book.Description" />
             </div>
@@ -57,13 +56,6 @@
 
 @code
 {
-    enum BookFormat
-    {
-        Paperback,
-        Ebook,
-        Both
-    }
-    private BookFormat _bookFormat = BookFormat.Both;
     private SubmitBook _book = new();
     private TimeOnly _time = new TimeOnly(12, 30, 0);
     private BlazorSimpleMde _simpleMde;

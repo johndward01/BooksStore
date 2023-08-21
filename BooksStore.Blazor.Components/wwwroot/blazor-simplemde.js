@@ -1,4 +1,4 @@
-var simplemde;
+var simplemde
 function initializeMarkdownEditor() {
     simplemde = new SimpleMDE();
 }
@@ -9,7 +9,7 @@ function getMarkdownEditorValue() {
     return '';
 }
 
-function setMarkdownEditorValue(value) {
+function setMarkdownEditorValue(text) {
     if (simplemde != null)
-        simplemde.value(value);
+        simplemde.value(text);
 }

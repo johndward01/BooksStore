@@ -1,23 +1,20 @@
 ﻿@typeparam ItemType
 @inject IJSRuntime JSRuntime
-@* @implements IDisposable *@
+@implements IDisposable
 
 <div class="grid-container">
     @if (Items != null && Items.Any())
     {
         foreach (var item in Items)
         {
-            <div class="grid-item" style="width: @_columnWidth%"
-            @onclick="() => OnItemClicked.InvokeAsync(item)">
+            <div class="grid-item" style="width: @_columnWidth" @onclick="() => OnItemClicked.InvokeAsync(item)">
                 @ItemTemplate(item)
             </div>
         }
     }
     else
     {
-        <h3 class="empty-collection-title">
-            No items available
-        </h3>
+        <h3 class="empty-collection-title">No items available</h3>
     }
 </div>
 
@@ -38,17 +35,20 @@
     [Parameter]
     public int ColumnsCount { get; set; } = 4;
 
-    // protected async override Task OnInitializedAsync()
-    // {
-    //     _dotNetObjectReference = DotNetObjectReference.Create(this);
-    //     await JSRuntime.InvokeVoidAsync("triggerOnWindowResized", _dotNetObjectReference);
-    // }
+    protected async override Task OnInitializedAsync()
+    {
+        _dotNetObjectReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("triggerOnWindowResized", _dotNetObjectReference);
+    }
 
-    // [JSInvokable]
-    // public void OnWindowResized(int width, int height)
-    // {
-    //     Console.WriteLine($"New width {width} and the new height {height}");
-    // }
+    [JSInvokable]
+    public void OnWindowResized(int width, int height)
+    {
+        Console.WriteLine($"New width {width} and the new height {height}");
+    }
 
-    // public void Dispose() => _dotNetObjectReference.Dispose();
+    public void Dispose() 
+    {
+        _dotNetObjectReference.Dispose();
+    }
 }

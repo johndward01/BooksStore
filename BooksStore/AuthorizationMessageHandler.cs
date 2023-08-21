@@ -2,11 +2,11 @@
 
 namespace BooksStore;
 
-public class AuthorizationMessagingHandler : DelegatingHandler
+public class AuthorizationMessageHandler : DelegatingHandler
 {
     private readonly ILocalStorageService _localStorage;
 
-    public AuthorizationMessagingHandler(ILocalStorageService localStorage)
+    public AuthorizationMessageHandler(ILocalStorageService localStorage)
     {
         _localStorage = localStorage;
     }

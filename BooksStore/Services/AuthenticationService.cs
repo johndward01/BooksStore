@@ -27,7 +27,6 @@ public class AuthenticationService : IAuthenticationService
         }
         else
         {
-            var content = await response.Content.ReadAsStringAsync();
             throw new Exception("Oops! Something went wrong");
         }
     }

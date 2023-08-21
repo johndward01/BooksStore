@@ -17,7 +17,17 @@
     }
 </div>
 
-@code {
+<style>
+    .main-button:hover {
+        background-color: #c7540c
+    }
+</style>
+
+@code
+{
+    private string _oldBookId = string.Empty;
+    private bool _shouldRerender = false;
+
     [Parameter, EditorRequired]
     public Book? Book { get; set; }
 
@@ -33,6 +43,30 @@
     [CascadingParameter]
     public string? BackgroundStyle { get; set; }
 
+    [CascadingParameter(Name = "ButtonStyle")]
+    public string? ButtonStyle { get; set; }
+
+    [CascadingParameter]
+    public bool IsBusy { get; set; }
+
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        if (parameters.TryGetValue<string>(nameof(BackgroundStyle), out var value))
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                BackgroundStyle = "background-color:white";
+            }
+        }
+
+        await base.SetParametersAsync(parameters);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        // Fetch data from the API
+    }
+
     private void AddToCart()
     {
         OnAddToCartClicked.InvokeAsync(Book);
@@ -42,5 +76,35 @@
     {
         var url = $"/book/{Book.Id}";
         Navigation.NavigateTo(url);
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Make a JavaScript call to manipulate the DOM elements
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (Book == null)
+            throw new ArgumentNullException(nameof(Book));
+        if (Book.Id.Equals(_oldBookId))
+        {
+            _oldBookId = Book.Id;
+            _shouldRerender = true;
+        }
+        else
+        {
+            _shouldRerender = false;
+        }
+    }
+
+    protected override bool ShouldRender()
+    {
+        return _shouldRerender;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine($"BookCard rendered for book '{Book.Title}'");
     }
 }

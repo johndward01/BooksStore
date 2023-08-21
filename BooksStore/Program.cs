@@ -1,20 +1,19 @@
-using Blazored.LocalStorage;
 using BooksStore;
 using BooksStore.Services;
-using Microsoft.AspNetCore.Components.Authorization;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Security.Claims;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-builder.Services.AddScoped<AuthorizationMessagingHandler>();
-builder.Services.AddHttpClient("BooksStore.API", client => client.BaseAddress = new Uri(builder.Configuration["ApiUrl"]))
-    .AddHttpMessageHandler<AuthorizationMessagingHandler>();
+builder.Services.AddScoped<AuthorizationMessageHandler>();
+builder.Services.AddHttpClient("BooksStore.ServerAPI", client => client.BaseAddress = new Uri(builder.Configuration["ApiUrl"]))
+    .AddHttpMessageHandler<AuthorizationMessageHandler>();
 
-builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BooksStore.API"));
+builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BooksStore.ServerAPI"));
 
 builder.Services.AddScoped<IBooksService, BooksHttpClientService>();
 
