@@ -20,5 +20,4 @@ public class AuthorizationMessagingHandler : DelegatingHandler
         }
         return await base.SendAsync(request, cancellationToken);
     }
-
 }
