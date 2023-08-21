@@ -10,11 +10,11 @@ using System.Security.Claims;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-builder.Services.AddScoped<AuthorizationMessageHandler>();
-builder.Services.AddHttpClient("BooksStore.ServerAPI", client => client.BaseAddress = new Uri(builder.Configuration["ApiUrl"]))
-    .AddHttpMessageHandler<AuthorizationMessageHandler>();
+builder.Services.AddScoped<AuthorizationMessagingHandler>();
+builder.Services.AddHttpClient("BooksStore.API", client => client.BaseAddress = new Uri(builder.Configuration["ApiUrl"]))
+    .AddHttpMessageHandler<AuthorizationMessagingHandler>();
 
-builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BooksStore.ServerAPI"));
+builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BooksStore.API"));
 
 builder.Services.AddScoped<IBooksService, BooksHttpClientService>();
 
