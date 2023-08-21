@@ -1,6 +1,7 @@
 ﻿@page "/authentication/login"
 @layout UserLayout
 @using Blazored.LocalStorage
+@using BooksStore.Exceptions;
 @using Microsoft.AspNetCore.Components.Authorization;
 @inject IAuthenticationService AuthService
 @inject ILocalStorageService LocalStorage
@@ -25,16 +26,24 @@
                 <ValidationMessage For="@(() => _model.Password)" />
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
+            @if (!string.IsNullOrWhiteSpace(_errorMessage))
+            {
+                <div class="alert alert-danger my-2">
+                    @_errorMessage
+                </div>
+            }
         </EditForm>
     </div>
 </div>
 
 @code
 {
+    private string _errorMessage = string.Empty;
     private LoginRequest _model = new();
 
     private async Task SubmitLoginFormAsync()
     {
+        _errorMessage = string.Empty;
         try
         {
             var loginResult = await AuthService.LoginUserAsync(_model);
@@ -42,6 +51,10 @@
             await LocalStorage.SetItemAsync("access_token", loginResult.AccessToken);
             await AuthStateProvider.GetAuthenticationStateAsync();
             Navigation.NavigateTo("/");
+        }
+        catch (ApiResponseException ex)
+        {
+            _errorMessage = ex.Message;
         }
         catch (Exception ex)
         {
